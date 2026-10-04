@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Methodology & OWASP Framework | Fake Form Detector{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 900px; padding: 2.5rem 1.5rem 4rem;">
+
+  <div style="text-align: center; margin-bottom: 2.5rem;">
+    <div class="hero-badge">
+      📚 Cybersecurity Methodology & Ethics
+    </div>
+    <h1 style="font-size: 2.3rem; font-weight: 900; color: #fff; margin-bottom: 0.8rem;">
+      SCANNING METHODOLOGY & ETHICS
+    </h1>
+    <p style="color: var(--text-muted); font-size: 1.05rem;">
+      Understanding passive static analysis, legal boundaries, and OWASP Top 10 alignment in defensive cybersecurity.
+    </p>
+  </div>
+
+  <!-- Passive vs Active Analysis Card -->
+  <div class="feature-card" style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.8rem;">⚖️</span>
+      <h3 style="color: #fff; font-size: 1.35rem;">Why Passive Analysis is Safer & Legally Sound</h3>
+    </div>
+    <p style="color: #cbd5e1; margin-bottom: 1rem; font-size: 0.95rem;">
+      In cybersecurity, testing is divided into two primary disciplines: <strong>Active Penetration Testing</strong> and <strong>Passive Security Auditing</strong>.
+    </p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1rem;">
+      <div style="background: var(--bg-secondary); padding: 1.2rem; border-radius: 8px; border-left: 4px solid var(--accent-orange);">
+        <h4 style="color: var(--accent-orange-light); margin-bottom: 0.5rem; font-size: 1rem;">Passive Analysis (Our Approach)</h4>
+        <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.6;">
+          <li>Issues only standard HTTP GET requests (identical to any normal web browser).</li>
+          <li>Never submits forms, alters database records, or transmits exploit payloads.</li>
+          <li>Zero risk of application crash, data corruption, or service outage.</li>
+          <li>Complies with computer crime statutes (CFAA, Computer Misuse Act).</li>
+        </ul>
+      </div>
+      <div style="background: var(--bg-secondary); padding: 1.2rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+        <h4 style="color: #fca5a5; margin-bottom: 0.5rem; font-size: 1rem;">Active Exploitation (Forbidden)</h4>
+        <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 1.2rem; line-height: 1.6;">
+          <li>Sends fuzzing payloads, brute-force attempts, or SQL injections.</li>
+          <li>Can cause database drops, server crashes, or account lockouts.</li>
+          <li>Illegal without prior explicit written authorization from system owners.</li>
+          <li>Stricly avoided by Fake Form Detector.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- What It Checks vs What It Cannot Check -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <div class="feature-card">
+      <h3 style="color: #6ee7b7; font-size: 1.15rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <span>✅</span> What The Scanner Checks
+      </h3>
+      <ul style="color: var(--text-muted); font-size: 0.88rem; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem;">
+        <li><strong>Transport Layer Encryption:</strong> HTTPS enforcement, TLS status, and redirect preservation.</li>
+        <li><strong>HTTP Security Headers:</strong> CSP, HSTS, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.</li>
+        <li><strong>HTML Form Architecture:</strong> Form methods (GET vs POST), action destinations, and mixed-content targets.</li>
+        <li><strong>Credential Hygiene:</strong> Plaintext password input transmissions over unencrypted channels.</li>
+        <li><strong>File Upload Surfaces:</strong> Detection of <code>&lt;input type="file"&gt;</code> without restrictive guardrails.</li>
+        <li><strong>CSRF Token Heuristics:</strong> Discovery of anti-CSRF token hidden fields in state-changing forms.</li>
+      </ul>
+    </div>
+
+    <div class="feature-card">
+      <h3 style="color: #fca5a5; font-size: 1.15rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <span>❌</span> What The Scanner Cannot Check
+      </h3>
+      <ul style="color: var(--text-muted); font-size: 0.88rem; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem;">
+        <li><strong>Dynamic SQL Injection Exploits:</strong> Static HTML cannot confirm whether the database query uses prepared statements.</li>
+        <li><strong>Dynamic Cross-Site Scripting (XSS):</strong> Passive inspection cannot prove lack of server-side output escaping without sending test payloads.</li>
+        <li><strong>Authenticated Business Logic Flaws:</strong> Inaccessible without executing real logins.</li>
+        <li><strong>Zero-Day Server Vulnerabilities:</strong> Underlying OS, memory corruption, or kernel weaknesses.</li>
+        <li><strong>Internal Network Topologies:</strong> Firewall rules or backend microservice communications.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- OWASP Top 10 Mapping -->
+  <div class="feature-card" style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+      <span style="font-size: 1.8rem;">🎯</span>
+      <h3 style="color: #fff; font-size: 1.35rem;">OWASP Top 10 Conceptual Mapping</h3>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">
+      The Open Web Application Security Project (OWASP) defines the critical risks facing modern applications. Here is how Fake Form Detector aligns with core OWASP categories:
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 0.9rem;">
+      <div style="background: var(--bg-secondary); padding: 0.9rem 1.2rem; border-radius: 8px;">
+        <strong style="color: #38bdf8;">A02:2021 – Cryptographic Failures:</strong>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
+          Addressed by detecting plaintext HTTP transport, missing HSTS enforcement, and credentials transmitted over unencrypted channels.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); padding: 0.9rem 1.2rem; border-radius: 8px;">
+        <strong style="color: #38bdf8;">A05:2021 – Security Misconfiguration:</strong>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
+          Addressed by auditing missing HTTP headers (Content-Security-Policy, X-Content-Type-Options: nosniff, Referrer-Policy, and Permissions-Policy).
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); padding: 0.9rem 1.2rem; border-radius: 8px;">
+        <strong style="color: #38bdf8;">A01:2021 – Broken Access Control & A04:2021 – Insecure Design:</strong>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
+          Addressed by checking for Anti-CSRF token presence, sensitive data exposure in HTTP GET URLs, and unprotected file upload entry points.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-secondary); padding: 0.9rem 1.2rem; border-radius: 8px;">
+        <strong style="color: #38bdf8;">A03:2021 – Injection (Context & Limitations):</strong>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
+          Identifies user-controllable input surfaces and explicitly reminds developers that parameterized queries and output escaping are required, avoiding false vulnerability claims.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer Footer Card -->
+  <div style="background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 12px; padding: 1.5rem; text-align: center;">
+    <h4 style="color: var(--accent-orange-light); margin-bottom: 0.4rem;">Educational Use & Penetration Testing Disclaimer</h4>
+    <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 700px; margin: 0 auto;">
+      The Fake Form Detector score is a defensive heuristic designed to educate developers and students on essential security hygiene. 
+      It is not a substitute for comprehensive manual code reviews, threat modeling, or authorized full-scope penetration tests.
+    </p>
+  </div>
+
+</div>
+{% endblock %}

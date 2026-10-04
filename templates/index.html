@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Fake Form Detector | Is This Website Safe? | BUILD SECURE 2026{% endblock %}
+
+{% block content %}
+<div class="container">
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      🛡️ BUILD SECURE 2026 — Defensive Security Project
+    </div>
+    <h1 class="hero-title">FAKE FORM DETECTOR</h1>
+    <h2 class="hero-subtitle">"Is This Website Safe?"</h2>
+    <p class="hero-desc">
+      Analyze website forms and security configuration for potential security risks using safe, non-destructive passive analysis.
+    </p>
+
+    <!-- Scanner Input Card -->
+    <div class="scanner-card" id="scan-section">
+      <form id="scan-form" action="{{ url_for('scan') }}" method="POST" class="search-form">
+        <div class="input-wrapper">
+          <span class="input-icon">🌐</span>
+          <input 
+            type="text" 
+            id="url-input" 
+            name="url" 
+            class="url-input" 
+            placeholder="https://example.com" 
+            required 
+            autocomplete="off"
+            spellcheck="false"
+          >
+        </div>
+        <button type="submit" id="analyze-btn" class="btn-analyze">
+          <span>ANALYZE WEBSITE</span>
+          <span>⚡</span>
+        </button>
+      </form>
+
+      <!-- Quick Demo Launcher -->
+      <div class="quick-demos">
+        <span>Instant Local Demos:</span>
+        <a href="{{ url_for('demo_run', mode='insecure') }}" class="demo-btn-insecure" title="Scan local intentionally insecure demo page">
+          ⚠️ Test Insecure Demo
+        </a>
+        <a href="{{ url_for('demo_run', mode='secure') }}" class="demo-btn-secure" title="Scan local hardened secure demo page">
+          ✅ Test Secure Demo
+        </a>
+      </div>
+    </div>
+
+    <!-- Safety & Ethics Callout -->
+    <div class="safety-banner">
+      <div class="safety-icon">🔒</div>
+      <div class="safety-content" style="text-align: left;">
+        <h4>Strictly Passive & Non-Destructive Analysis</h4>
+        <p>
+          This scanner only reads public HTTP response headers and parses static HTML form structures. 
+          It <strong>never</strong> attempts unauthorized logins, never injects payloads, never executes brute-force attacks, 
+          and never submits forms to external websites.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid -->
+  <section style="margin-bottom: 4rem;">
+    <h3 style="text-align: center; font-size: 1.6rem; font-weight: 800; margin-bottom: 2rem; color: #fff;">
+      Passive Security Inspection Engine
+    </h3>
+
+    <div class="feature-grid">
+      <!-- 1. HTTPS -->
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <h4 class="feature-title">HTTPS Transport Check</h4>
+        <p class="feature-text">
+          Verifies whether the target domain enforces TLS encryption and inspects HTTP redirect chains to detect insecure plaintext downgrade risks.
+        </p>
+      </div>
+
+      <!-- 2. Security Headers -->
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h4 class="feature-title">HTTP Security Headers</h4>
+        <p class="feature-text">
+          Audits five fundamental browser defense headers: Content-Security-Policy (CSP), Strict-Transport-Security (HSTS), X-Content-Type-Options, Referrer-Policy, and Permissions-Policy.
+        </p>
+      </div>
+
+      <!-- 3. Form & Action Analysis -->
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h4 class="feature-title">HTML Form Structure</h4>
+        <p class="feature-text">
+          Parses form methods (GET vs POST), action destinations, mixed-content vulnerabilities, and checks for anti-CSRF token presence.
+        </p>
+      </div>
+
+      <!-- 4. Authentication Indicators -->
+      <div class="feature-card">
+        <div class="feature-icon">🔑</div>
+        <h4 class="feature-title">Password Transmission</h4>
+        <p class="feature-text">
+          Detects password inputs and evaluates whether authentication forms risk exposing sensitive credentials across unencrypted channels or via HTTP GET.
+        </p>
+      </div>
+
+      <!-- 5. File Upload Detection -->
+      <div class="feature-card">
+        <div class="feature-icon">📁</div>
+        <h4 class="feature-title">File Upload Guardrails</h4>
+        <p class="feature-text">
+          Identifies file upload endpoints and supplies vital defense-in-depth guidance covering MIME verification, size limits, and storage isolation.
+        </p>
+      </div>
+
+      <!-- 6. Input Handling & Score Card -->
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4 class="feature-title">Transparent 0–100 Score</h4>
+        <p class="feature-text">
+          Generates a visual Security Report Card categorizing findings by severity, explaining why each finding matters, and outlining remediation steps.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

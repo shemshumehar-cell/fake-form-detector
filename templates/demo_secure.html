@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secured & Hardened Demo | BUILD SECURE 2026</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="background: #090d16;">
+
+  <!-- Training Alert Banner -->
+  <div style="background: #059669; color: #fff; padding: 0.75rem; text-align: center; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.5px;">
+    ✅ Training demonstration only — intentionally configured for cybersecurity education.
+  </div>
+
+  <div class="container" style="max-width: 680px; margin: 3rem auto; padding: 1.5rem;">
+    <div style="background: var(--bg-card); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 2rem; box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);">
+      <h2 style="color: #6ee7b7; font-size: 1.6rem; margin-bottom: 0.5rem;">
+        Hardened Corporate Portal (Secured Implementation)
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+        This endpoint implements industry-standard defense-in-depth: strict CSP, HSTS, nosniff, anti-CSRF token, POST methods, and input validation.
+      </p>
+
+      <!-- Secured Form: Uses POST, relative HTTPS action, anti-CSRF token, constrained file upload -->
+      <form action="/demo/secure" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.2rem;">
+        
+        <!-- Anti-CSRF Token Indicator -->
+        <input type="hidden" name="csrf_token" value="d93f7a1e8c4b2a6d4e8f0a2b4c6e8f0a1b3c5e7">
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.3rem;">Work Email (Validated)</label>
+          <input type="email" name="email" required placeholder="user@company.com" style="width: 100%; padding: 0.7rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: #fff;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.3rem;">Password (Encrypted Transport via POST)</label>
+          <input type="password" name="password" required placeholder="••••••••" style="width: 100%; padding: 0.7rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: #fff;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.3rem;">Verification Document (Strict MIME & Size Limits)</label>
+          <input type="file" name="verification_doc" accept=".pdf,.png,.jpg" style="color: #94a3b8; font-size: 0.85rem;">
+          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.2rem;">Allowed: PDF, PNG, JPG (Max 5MB). Server validates magic bytes and stores outside web root.</div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.3rem;">Support Note (Allowlisted Character Filter)</label>
+          <textarea name="support_note" maxlength="500" rows="3" placeholder="Enter sanitized note..." style="width: 100%; padding: 0.7rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: #fff;"></textarea>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+          <button type="button" style="background: #059669; color: #fff; border: none; padding: 0.7rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: default;">
+            Secure Submission Ready
+          </button>
+          <a href="{{ url_for('index') }}" style="background: var(--bg-secondary); color: #cbd5e1; padding: 0.7rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; border: 1px solid var(--border-color);">
+            ← Return to Scanner
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

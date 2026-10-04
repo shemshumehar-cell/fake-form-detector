@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Fake Form Detector | Is This Website Safe?{% endblock %}</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Cyber Dark & Orange Theme -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Cyber Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="{{ url_for('index') }}" class="brand-logo">
+        <div class="brand-icon">🛡️</div>
+        <div class="brand-text">
+          <span class="brand-title">FAKE FORM DETECTOR</span>
+          <span class="brand-tag">BUILD SECURE 2026</span>
+        </div>
+      </a>
+      
+      <div class="nav-links">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('compare') }}" class="nav-link">Before vs After</a>
+        <a href="{{ url_for('methodology') }}" class="nav-link">Methodology</a>
+        <a href="{{ url_for('demo_insecure') }}" class="nav-link" target="_blank" title="View Insecure Demo Page">Insecure Demo</a>
+        <a href="{{ url_for('demo_secure') }}" class="nav-link" target="_blank" title="View Hardened Demo Page">Secure Demo</a>
+        <a href="{{ url_for('index') }}#scan-section" class="nav-btn">Start Audit</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Flash Messages -->
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="margin-top: 1.5rem;">
+          {% for category, msg in messages %}
+            <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fcd34d; padding: 0.8rem 1.2rem; border-radius: 8px; font-size: 0.9rem;">
+              ⚠️ {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Main Content Block -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Defensive Cyber Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p style="margin-bottom: 0.4rem;">
+        <strong>FAKE FORM DETECTOR</strong> — <span class="footer-highlight">"Is This Website Safe?"</span>
+      </p>
+      <p style="font-size: 0.78rem; color: var(--text-dim);">
+        College Cybersecurity Competition Project • <strong>BUILD SECURE 2026</strong> • Safe, Non-Destructive Passive Web Analysis
+      </p>
+      <p style="font-size: 0.72rem; color: #475569; margin-top: 0.5rem;">
+        Notice: This educational tool performs strictly passive inspection. It does not submit forms, execute exploits, or store sensitive credentials.
+      </p>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

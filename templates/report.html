@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Security Report Card | Fake Form Detector{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- If error occurred during scan -->
+  {% if error %}
+    <div class="error-alert-box">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h2 class="error-title">Target Analysis Failed</h2>
+      <p class="error-message">
+        {{ error.message or error.error or "The target website could not be analyzed safely." }}
+      </p>
+      {% if error.recommendation %}
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); display: inline-block; padding: 0.8rem 1.4rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; color: #cbd5e1; text-align: left;">
+          <strong>💡 Diagnostic Tip:</strong> {{ error.recommendation }}
+        </div>
+      {% endif %}
+      <div>
+        <a href="{{ url_for('index') }}" class="btn-analyze" style="display: inline-flex; text-decoration: none;">
+          ← Try Another Website
+        </a>
+      </div>
+    </div>
+
+  <!-- Valid Report Presentation -->
+  {% elif report %}
+
+    <!-- Demo Training Banner if in Demo Mode -->
+    {% if report.is_demo_mode %}
+      <div style="background: rgba(245, 158, 11, 0.15); border: 2px dashed #f59e0b; color: #fcd34d; padding: 0.9rem 1.4rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center; font-weight: 700; font-size: 0.95rem;">
+        ⚠️ Training demonstration only — intentionally configured for cybersecurity education.
+      </div>
+    {% endif %}
+
+    <!-- Report Top Header Card -->
+    <div class="report-header-card">
+      <div class="report-top-bar">
+        <div class="report-headline">
+          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+            <span style="background: rgba(249, 115, 22, 0.15); color: var(--accent-orange-light); font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; text-transform: uppercase;">
+              PASSIVE AUDIT COMPLETE
+            </span>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">
+              {{ report.timestamp }}
+            </span>
+          </div>
+          <h1>SECURITY REPORT CARD</h1>
+          <div class="target-url-badge">
+            Target: {{ report.scanned_url }}
+          </div>
+          {% if report.is_redirected %}
+            <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.4rem;">
+              ↪️ Redirected to: <span style="font-family: var(--font-mono); color: #cbd5e1;">{{ report.final_url }}</span> (HTTP {{ report.status_code }})
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Download & Print Actions -->
+        <div class="report-actions">
+          <button id="btn-print-report" class="btn-action">
+            🖨️ Download / Print Report
+          </button>
+          <a href="{{ url_for('export_json') }}" class="btn-action">
+            💾 Export JSON
+          </a>
+          <a href="{{ url_for('index') }}" class="btn-action" style="border-color: var(--accent-orange);">
+            🔍 New Scan
+          </a>
+        </div>
+      </div>
+
+      <!-- Score & Summary Statistics Grid -->
+      <div class="score-overview-grid">
+        
+        <!-- Score Circular Gauge -->
+        <div class="score-gauge-box">
+          <div class="score-circle {{ report.summary.risk_color }}">
+            <span class="score-number">{{ report.summary.score }}</span>
+            <span class="score-label">/ 100</span>
+          </div>
+          <div class="risk-level-badge {{ report.summary.risk_color }}">
+            Risk Level: {{ report.summary.risk_level }}
+          </div>
+        </div>
+
+        <!-- Metric Counter Pills -->
+        <div class="stats-summary-grid">
+          <div class="stat-pill">
+            <div class="stat-count pass">{{ report.summary.passed_checks }}</div>
+            <div class="stat-name">Passed Checks</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-count warn">{{ report.summary.warnings }}</div>
+            <div class="stat-name">Warnings</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-count risk">{{ report.summary.risks }}</div>
+            <div class="stat-name">High Risks</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-count unverified">{{ report.summary.unverified }}</div>
+            <div class="stat-name">Unverified / Info</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational Transparency Disclaimer -->
+      <div style="margin-top: 1.5rem; padding: 0.9rem 1.2rem; background: rgba(15, 23, 42, 0.6); border-radius: 8px; border: 1px dashed var(--border-color); font-size: 0.82rem; color: var(--text-muted);">
+        ℹ️ <strong>Educational Scoring Notice:</strong> {{ report.summary.disclaimer }}
+      </div>
+    </div>
+
+    <!-- Forms Breakdown Overview -->
+    <div class="forms-summary-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
+        <div>
+          <h3 style="color: #fff; font-size: 1.25rem;">Discovered HTML Forms & Input Surface</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Passive structural review of discovered &lt;form&gt; elements.</p>
+        </div>
+        <div style="display: flex; gap: 0.8rem; font-size: 0.85rem;">
+          <span style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 6px;">Total Forms: <strong>{{ report.stats.total_forms }}</strong></span>
+          <span style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 6px;">Passwords: <strong>{{ report.stats.total_password_inputs }}</strong></span>
+          <span style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 6px;">File Uploads: <strong>{{ report.stats.total_file_inputs }}</strong></span>
+        </div>
+      </div>
+
+      {% if report.forms %}
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          {% for form in report.forms %}
+            <div class="form-item-card">
+              <div class="form-item-header">
+                <div>
+                  <strong style="color: #fff;">Form ID:</strong> <span style="font-family: var(--font-mono); color: var(--accent-orange-light);">{{ form.id }}</span>
+                </div>
+                <div>
+                  <span class="form-method-tag">METHOD: {{ form.method }}</span>
+                  {% if form.is_action_https %}
+                    <span style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.78rem;">HTTPS Action</span>
+                  {% else %}
+                    <span style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.78rem;">Insecure Action</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                <strong>Action Endpoint:</strong> <code style="color: #cbd5e1;">{{ form.resolved_action }}</code>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                {% for inp in form.inputs %}
+                  <span style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-family: var(--font-mono);">
+                    &lt;{{ inp.tag }} type="{{ inp.type }}" name="{{ inp.name }}"&gt;
+                  </span>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+          No standard HTML <code>&lt;form&gt;</code> elements were identified on this page.
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Filter Buttons Bar -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <h3 style="color: #fff; font-size: 1.3rem;">Detailed Security Findings</h3>
+      
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">All Findings ({{ report.findings|length }})</button>
+        <button class="filter-btn" data-filter="high-risk">High Risk ({{ report.summary.risks }})</button>
+        <button class="filter-btn" data-filter="warning">Warnings ({{ report.summary.warnings }})</button>
+        <button class="filter-btn" data-filter="pass">Passed ({{ report.summary.passed_checks }})</button>
+        <button class="filter-btn" data-filter="unverified">Unverified ({{ report.summary.unverified }})</button>
+      </div>
+    </div>
+
+    <!-- Finding Cards List -->
+    <div class="findings-container">
+      {% for item in report.findings %}
+        {% set sev_class = item.severity|lower|replace(' ', '-') %}
+        <div class="finding-card severity-{{ sev_class }}">
+          <div class="finding-header">
+            <div class="finding-meta">
+              <span class="finding-category-tag">{{ item.category }}</span>
+              <h4 class="finding-title">{{ item.name }}</h4>
+            </div>
+            <div>
+              <span class="badge-status {{ sev_class }}">
+                {{ item.severity }}
+              </span>
+            </div>
+          </div>
+
+          <div class="finding-body">
+            <!-- What Was Detected -->
+            <div class="finding-detail-row">
+              <span class="detail-label">What Was Detected</span>
+              <div class="detail-code">{{ item.detected }}</div>
+            </div>
+
+            <!-- Why It Matters -->
+            <div class="finding-detail-row">
+              <span class="detail-label">Why It Matters</span>
+              <p class="detail-value">{{ item.why_it_matters }}</p>
+            </div>
+
+            <!-- Recommended Fix -->
+            {% if item.recommended_fix %}
+              <div class="fix-box">
+                <span class="detail-label">Recommended Fix</span>
+                <p class="detail-value">{{ item.recommended_fix }}</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}

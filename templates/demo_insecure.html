@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intentionally Insecure Demo | BUILD SECURE 2026</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body style="background: #0d1117;">
+
+  <!-- Training Alert Banner -->
+  <div style="background: #ef4444; color: #fff; padding: 0.75rem; text-align: center; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.5px;">
+    ⚠️ Training demonstration only — intentionally configured for cybersecurity education.
+  </div>
+
+  <div class="container" style="max-width: 680px; margin: 3rem auto; padding: 1.5rem;">
+    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 2rem;">
+      <h2 style="color: #fca5a5; font-size: 1.6rem; margin-bottom: 0.5rem;">
+        Legacy Corporate Portal (Vulnerable Mockup)
+      </h2>
+      <p style="color: #8b949e; font-size: 0.9rem; margin-bottom: 1.5rem;">
+        This simulated endpoint intentionally demonstrates common web security misconfigurations for automated audit testing.
+      </p>
+
+      <!-- Intentionally Insecure Form: Uses GET, HTTP action, plain password, unvalidated file upload, no CSRF -->
+      <form action="http://insecure-auth.local/authenticate" method="GET" style="display: flex; flex-direction: column; gap: 1.2rem;">
+        
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #c9d1d9; margin-bottom: 0.3rem;">Username / Email</label>
+          <input type="text" name="username" placeholder="user@company.local" style="width: 100%; padding: 0.7rem; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #fff;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #c9d1d9; margin-bottom: 0.3rem;">Password (Sent in Plaintext over HTTP/GET)</label>
+          <input type="password" name="password" placeholder="••••••••" style="width: 100%; padding: 0.7rem; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #fff;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #c9d1d9; margin-bottom: 0.3rem;">Identity Document Upload (Unrestricted)</label>
+          <input type="file" name="identity_document" style="color: #8b949e; font-size: 0.85rem;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: #c9d1d9; margin-bottom: 0.3rem;">Comments / Feedback (Unsanitized)</label>
+          <textarea name="comments" rows="3" placeholder="Enter comments..." style="width: 100%; padding: 0.7rem; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #fff;"></textarea>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+          <button type="button" style="background: #238636; color: #fff; border: none; padding: 0.7rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: not-allowed;" title="Simulation only - do not submit">
+            Submit To Insecure Target
+          </button>
+          <a href="{{ url_for('index') }}" style="background: #21262d; color: #c9d1d9; padding: 0.7rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center;">
+            ← Return to Scanner
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

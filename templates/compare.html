@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Before vs After Security Hardening | BUILD SECURE 2026{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Header -->
+  <section style="text-align: center; padding: 2.5rem 0 1.5rem;">
+    <div class="hero-badge">
+      🔄 Defensive Transformation Case Study
+    </div>
+    <h1 style="font-size: 2.4rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem;">
+      BEFORE VS AFTER HARDENING
+    </h1>
+    <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto;">
+      Compare the security posture of an unhardened legacy website against a properly secured implementation.
+    </p>
+  </section>
+
+  <!-- Cybersecurity Lifecycle Visual Bar -->
+  <div class="lifecycle-bar">
+    <div class="lifecycle-step">
+      <div class="step-number">1</div>
+      <div class="step-label" style="color: #cbd5e1;">BUILD</div>
+      <span style="font-size: 0.72rem; color: var(--text-dim);">Develop Features</span>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="lifecycle-step">
+      <div class="step-number">2</div>
+      <div class="step-label" style="color: #cbd5e1;">DEPLOY</div>
+      <span style="font-size: 0.72rem; color: var(--text-dim);">Host Application</span>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="lifecycle-step">
+      <div class="step-number" style="background: rgba(249, 115, 22, 0.2); border-color: var(--accent-orange); color: var(--accent-orange-light);">3</div>
+      <div class="step-label" style="color: var(--accent-orange-light);">SECURE</div>
+      <span style="font-size: 0.72rem; color: var(--accent-orange);">Harden Headers & Forms</span>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="lifecycle-step">
+      <div class="step-number" style="border-color: #10b981; color: #10b981;">4</div>
+      <div class="step-label" style="color: #10b981;">ANALYZE</div>
+      <span style="font-size: 0.72rem; color: var(--text-dim);">Audit with Scanner</span>
+    </div>
+  </div>
+
+  <!-- Side-by-Side Comparison Grid -->
+  <div class="compare-container">
+    
+    <!-- BEFORE CARD (Insecure) -->
+    <div class="compare-card before">
+      <div class="compare-header">
+        <span style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">
+          VULNERABLE STATE
+        </span>
+        <h2 style="color: #fff; font-size: 1.5rem; margin-top: 0.6rem;">{{ before.title }}</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">{{ before.subtitle }}</p>
+
+        <div style="margin: 1.5rem 0; display: flex; justify-content: center;">
+          <div class="score-circle danger" style="width: 110px; height: 110px;">
+            <span class="score-number" style="font-size: 2.2rem; color: #fca5a5;">{{ before.score }}</span>
+            <span class="score-label">/ 100</span>
+          </div>
+        </div>
+
+        <div class="risk-level-badge danger">
+          RISK LEVEL: {{ before.risk_level }}
+        </div>
+      </div>
+
+      <h4 style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+        Detected Issues & Vulnerabilities
+      </h4>
+
+      <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+        {% for issue in before.issues %}
+          <div style="background: var(--bg-secondary); border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.8rem; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: #fff; font-size: 0.88rem;">{{ issue.title }}</strong>
+              <span class="badge-status high-risk" style="font-size: 0.65rem;">{{ issue.severity }}</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.4;">{{ issue.detail }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="margin-top: 1.8rem; text-align: center;">
+        <a href="{{ url_for('demo_run', mode='insecure') }}" class="demo-btn-insecure" style="width: 100%; justify-content: center; padding: 0.7rem;">
+          🔍 Audit Insecure Demo Live
+        </a>
+      </div>
+    </div>
+
+    <!-- AFTER CARD (Hardened) -->
+    <div class="compare-card after">
+      <div class="compare-header">
+        <span style="background: rgba(16, 185, 129, 0.15); color: #6ee7b7; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">
+          HARDENED DEFENSE
+        </span>
+        <h2 style="color: #fff; font-size: 1.5rem; margin-top: 0.6rem;">{{ after.title }}</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">{{ after.subtitle }}</p>
+
+        <div style="margin: 1.5rem 0; display: flex; justify-content: center;">
+          <div class="score-circle success" style="width: 110px; height: 110px;">
+            <span class="score-number" style="font-size: 2.2rem; color: #6ee7b7;">{{ after.score }}</span>
+            <span class="score-label">/ 100</span>
+          </div>
+        </div>
+
+        <div class="risk-level-badge success">
+          RISK LEVEL: {{ after.risk_level }}
+        </div>
+      </div>
+
+      <h4 style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">
+        Resolved & Hardened Defenses
+      </h4>
+
+      <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+        {% for issue in after.issues %}
+          <div style="background: var(--bg-secondary); border: 1px solid rgba(16, 185, 129, 0.2); padding: 0.8rem; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <strong style="color: #fff; font-size: 0.88rem;">{{ issue.title }}</strong>
+              <span class="badge-status pass" style="font-size: 0.65rem;">{{ issue.severity }}</span>
+            </div>
+            <p style="color: #a7f3d0; font-size: 0.8rem; line-height: 1.4;">{{ issue.detail }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div style="margin-top: 1.8rem; text-align: center;">
+        <a href="{{ url_for('demo_run', mode='secure') }}" class="demo-btn-secure" style="width: 100%; justify-content: center; padding: 0.7rem;">
+          🛡️ Audit Secure Demo Live
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
