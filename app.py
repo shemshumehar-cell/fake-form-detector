@@ -3,6 +3,7 @@ app.py - Web Application for Fake Form Detector ("Is This Website Safe?")
 Event: BUILD SECURE 2026 - Cybersecurity Competition
 """
 
+import os
 import json
 from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify, flash
 import scanner
@@ -85,10 +86,11 @@ def demo_run(mode):
     Directly triggers analysis of the internal demo targets.
     """
     host = request.host
+    scheme = request.headers.get("X-Forwarded-Proto", request.scheme)
     if mode == "insecure":
         target = f"http://{host}/demo/insecure"
     elif mode == "secure":
-        target = f"http://{host}/demo/secure"
+        target = f"{scheme}://{host}/demo/secure"
     else:
         return redirect(url_for("index"))
 
@@ -181,9 +183,10 @@ def export_json():
 
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
     print("=" * 60)
     print(" FAKE FORM DETECTOR - BUILD SECURE 2026")
     print(" Is This Website Safe? Passive Web Security Scanner")
-    print(" Server running locally at: http://127.0.0.1:5000")
+    print(f" Server running at: http://0.0.0.0:{port}")
     print("=" * 60)
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
